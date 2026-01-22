@@ -1,0 +1,55 @@
+# AI Employee System Requirements
+# Compatible with UV package manager
+
+# Core dependencies
+python==3.13
+asyncio
+pathlib
+logging
+typing
+PyYAML==6.0.1
+
+# File processing
+python-magic==0.4.27  # File type detection
+
+# Email processing
+google-auth==2.29.0
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.2.0
+google-api-python-client==2.125.0
+imapclient==2.1.0
+
+# Web automation
+playwright==1.40.0
+selenium==4.15.0
+
+# Task scheduling
+apscheduler==3.10.4
+
+# Environment variables
+python-dotenv==1.0.0
+
+# HTTP requests
+requests==2.31.0
+httpx==0.25.2
+
+# Data processing
+pandas==2.1.4
+openpyxl==3.1.2
+
+# Utilities
+tqdm==4.66.1
+click==8.1.7
+
+# Testing (required)
+pytest==8.3.3
+pytest-asyncio==0.23.7
+
+# Async HTTP client for Claude integration
+aiohttp==3.10.5
+
+# Additional utilities
+python-multipart==0.0.9
+
+# For the chatbot interface
+colorama==0.4.6  # For colored output (optional)

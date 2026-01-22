@@ -1,0 +1,115 @@
+
+:root {
+    --needs-action-color: #ffc107;
+    --in-progress-color: #17a2b8;
+    --pending-approval-color: #dc3545;
+    --approved-color: #28a745;
+    --done-color: #6c757d;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: 1rem;
+}
+
+.card-header {
+    font-weight: 600;
+}
+
+.list-group-item {
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+}
+
+.list-group-item:first-child {
+    border-top: 0;
+}
+
+.list-group-item:last-child {
+    border-bottom: 0;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.badge {
+    font-size: 0.8em;
+}
+
+.task-content {
+    line-height: 1.6;
+}
+
+.task-content h1, .task-content h2, .task-content h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.task-content h1 {
+    font-size: 1.75rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.3rem;
+}
+
+.task-content h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.3rem;
+}
+
+.task-content h3 {
+    font-size: 1.25rem;
+}
+
+.task-content p {
+    margin-bottom: 1rem;
+}
+
+.task-content ul, .task-content ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.task-content li {
+    margin-bottom: 0.25rem;
+}
+
+.task-content table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+}
+
+.task-content table th,
+.task-content table td {
+    padding: 0.5rem;
+    border: 1px solid #dee2e6;
+}
+
+.task-content table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.task-content pre {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.task-content code {
+    background-color: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+}

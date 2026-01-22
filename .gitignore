@@ -1,0 +1,86 @@
+# AI Employee System - .gitignore
+
+# Environment variables and secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Google API tokens
+token.json
+tokens.json
+
+# Credentials
+credentials.json
+client_secret*.json
+*.credentials.json
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Obsidian vault logs
+AI_Employee_Vault/Logs/*
+!.gitkeep
+
+# Local configuration
+config.json
+*.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+*~
+
+# System files
+.DS_Store
+desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*~
+.#*
+.env.template

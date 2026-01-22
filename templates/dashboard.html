@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Employee Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-robot"></i> AI Employee Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text">
+                    <i class="fas fa-chart-bar"></i>
+                    Needs Action: <span class="badge bg-warning text-dark">{{ total_needs_action }}</span>
+                    Pending Approval: <span class="badge bg-info text-white">{{ total_pending_approval }}</span>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Needs Action Column -->
+            <div class="col-md-4 mb-4">
+                <div class="card border-warning">
+                    <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-exclamation-circle"></i> Needs Action</h5>
+                        <span class="badge bg-secondary">{{ total_needs_action }}</span>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if needs_action_tasks %}
+                            <div class="list-group list-group-flush">
+                                {% for task in needs_action_tasks %}
+                                    <a href="/task/{{ task.id }}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ task.title }}</h6>
+                                            <small>{{ task.priority.title() }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ task.content[:100] }}{% if task.content|length > 100 %}...{% endif %}</p>
+                                        <small class="text-muted">{{ task.source }} | {{ task.created_at[:19] }}</small>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="card-body text-center text-muted">
+                                <i class="fas fa-inbox fa-2x mb-2"></i>
+                                <p>No tasks need action</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- In Progress Column -->
+            <div class="col-md-4 mb-4">
+                <div class="card border-info">
+                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-cogs"></i> In Progress</h5>
+                        <span class="badge bg-secondary">{{ total_in_progress }}</span>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if in_progress_tasks %}
+                            <div class="list-group list-group-flush">
+                                {% for task in in_progress_tasks %}
+                                    <a href="/task/{{ task.id }}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ task.title }}</h6>
+                                            <small>{{ task.priority.title() }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ task.content[:100] }}{% if task.content|length > 100 %}...{% endif %}</p>
+                                        <small class="text-muted">{{ task.source }} | {{ task.created_at[:19] }}</small>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="card-body text-center text-muted">
+                                <i class="fas fa-spinner fa-2x mb-2"></i>
+                                <p>No tasks in progress</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Approval Column -->
+            <div class="col-md-4 mb-4">
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-user-clock"></i> Pending Approval</h5>
+                        <span class="badge bg-secondary">{{ total_pending_approval }}</span>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if pending_approval_tasks %}
+                            <div class="list-group list-group-flush">
+                                {% for task in pending_approval_tasks %}
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ task.title }}</h6>
+                                            <small>{{ task.priority.title() }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ task.content[:100] }}{% if task.content|length > 100 %}...{% endif %}</p>
+                                        <small class="text-muted">{{ task.source }} | {{ task.created_at[:19] }}</small>
+                                        <div class="mt-2">
+                                            <button class="btn btn-sm btn-success me-2" onclick="moveTask('{{ task.id }}', 'approved')">
+                                                <i class="fas fa-check"></i> Approve
+                                            </button>
+                                            <button class="btn btn-sm btn-secondary" onclick="moveTask('{{ task.id }}', 'rejected')">
+                                                <i class="fas fa-times"></i> Reject
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="card-body text-center text-muted">
+                                <i class="fas fa-check-circle fa-2x mb-2"></i>
+                                <p>No tasks pending approval</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Approved Column -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-check-circle"></i> Approved</h5>
+                        <span class="badge bg-light text-dark">{{ approved_tasks|length }}</span>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if approved_tasks %}
+                            <div class="list-group list-group-flush">
+                                {% for task in approved_tasks %}
+                                    <a href="/task/{{ task.id }}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ task.title }}</h6>
+                                            <small>{{ task.priority.title() }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ task.content[:100] }}{% if task.content|length > 100 %}...{% endif %}</p>
+                                        <small class="text-muted">{{ task.source }} | {{ task.created_at[:19] }}</small>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="card-body text-center text-muted">
+                                <i class="fas fa-thumbs-up fa-2x mb-2"></i>
+                                <p>No approved tasks</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Done Column -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-secondary">
+                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-check-double"></i> Done</h5>
+                        <span class="badge bg-light text-dark">{{ done_tasks|length }}</span>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if done_tasks %}
+                            <div class="list-group list-group-flush">
+                                {% for task in done_tasks %}
+                                    <a href="/task/{{ task.id }}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ task.title }}</h6>
+                                            <small>{{ task.priority.title() }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ task.content[:100] }}{% if task.content|length > 100 %}...{% endif %}</p>
+                                        <small class="text-muted">{{ task.source }} | {{ task.created_at[:19] }}</small>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="card-body text-center text-muted">
+                                <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                                <p>No completed tasks</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>

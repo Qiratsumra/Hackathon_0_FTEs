@@ -1,0 +1,124 @@
+{
+  "version": "1.0",
+  "name": "ai-employee-mcp",
+  "description": "MCP server configuration for AI Employee system",
+  "servers": [
+    {
+      "id": "filesystem-mcp",
+      "name": "Filesystem MCP",
+      "description": "Built-in MCP for reading/writing vault files",
+      "connection": {
+        "type": "stdio",
+        "command": "python",
+        "args": ["-m", "ai_employee.filesystem_mcp"]
+      },
+      "capabilities": {
+        "read_file": true,
+        "write_file": true,
+        "list_directory": true,
+        "create_directory": true
+      }
+    },
+    {
+      "id": "email-mcp",
+      "name": "Email MCP",
+      "description": "Send emails via Gmail API",
+      "connection": {
+        "type": "stdio",
+        "command": "python",
+        "args": ["-m", "ai_employee.email_mcp"]
+      },
+      "capabilities": {
+        "send_email": true,
+        "get_email": true,
+        "list_emails": true,
+        "create_draft": true
+      },
+      "environment": {
+        "GMAIL_CLIENT_ID": "${GMAIL_CLIENT_ID}",
+        "GMAIL_CLIENT_SECRET": "${GMAIL_CLIENT_SECRET}",
+        "GMAIL_REFRESH_TOKEN": "${GMAIL_REFRESH_TOKEN}",
+        "GMAIL_USER_EMAIL": "${GMAIL_USER_EMAIL}"
+      }
+    },
+    {
+      "id": "browser-mcp",
+      "name": "Browser MCP",
+      "description": "Interact with web pages for payments and social media",
+      "connection": {
+        "type": "stdio",
+        "command": "python",
+        "args": ["-m", "ai_employee.browser_mcp"]
+      },
+      "capabilities": {
+        "navigate_url": true,
+        "click_element": true,
+        "fill_form": true,
+        "scrape_data": true,
+        "take_screenshot": true
+      }
+    },
+    {
+      "id": "payment-mcp",
+      "name": "Payment MCP",
+      "description": "Handle payment processing and financial transactions",
+      "connection": {
+        "type": "stdio",
+        "command": "python",
+        "args": ["-m", "ai_employee.payment_mcp"]
+      },
+      "capabilities": {
+        "process_payment": true,
+        "create_invoice": true,
+        "check_balance": true,
+        "transfer_funds": true
+      },
+      "security": {
+        "require_approval": true,
+        "approval_threshold_low": "${APPROVAL_THRESHOLD_LOW}",
+        "approval_threshold_high": "${APPROVAL_THRESHOLD_HIGH}"
+      },
+      "environment": {
+        "PAYMENT_PROVIDER": "${PAYMENT_PROVIDER}",
+        "PAYMENT_API_KEY": "${PAYMENT_API_KEY}",
+        "BANK_ACCOUNT_INFO": "${BANK_ACCOUNT_INFO}"
+      }
+    }
+  ],
+  "permissions": {
+    "filesystem": {
+      "read": ["~/AI_Employee_Vault/**/*"],
+      "write": ["~/AI_Employee_Vault/**/*"]
+    },
+    "email": {
+      "send": ["${GMAIL_USER_EMAIL}"],
+      "read": ["${GMAIL_USER_EMAIL}"]
+    },
+    "network": {
+      "allow": [
+        "www.googleapis.com",
+        "oauth2.googleapis.com",
+        "api.stripe.com",
+        "paypal.com",
+        "smtp.gmail.com"
+      ],
+      "deny": []
+    }
+  },
+  "security": {
+    "require_human_approval": {
+      "email_unknown_contacts": true,
+      "payments_over": "${APPROVAL_THRESHOLD_LOW}",
+      "new_payees": true,
+      "delete_files": true,
+      "modify_system_settings": true
+    },
+    "audit_logging": true,
+    "encryption_required": true
+  },
+  "health_check": {
+    "interval_seconds": 30,
+    "timeout_seconds": 10,
+    "retry_attempts": 3
+  }
+}
