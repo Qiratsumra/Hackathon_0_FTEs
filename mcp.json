@@ -83,6 +83,70 @@
         "PAYMENT_API_KEY": "${PAYMENT_API_KEY}",
         "BANK_ACCOUNT_INFO": "${BANK_ACCOUNT_INFO}"
       }
+    },
+    {
+      "id": "odoo-mcp",
+      "name": "Odoo MCP",
+      "description": "Interact with Odoo for accounting and business management",
+      "connection": {
+        "type": "stdio",
+        "command": "python",
+        "args": ["-m", "ai_employee.odoo_mcp"]
+      },
+      "capabilities": {
+        "create_invoice_draft": true,
+        "get_partners": true,
+        "search_products": true
+      },
+      "environment": {
+        "ODOO_HOST": "${ODOO_HOST}",
+        "ODOO_PORT": "${ODOO_PORT}",
+        "ODOO_DB_NAME": "${ODOO_DB_NAME}",
+        "ODOO_USERNAME": "${ODOO_USERNAME}",
+        "ODOO_PASSWORD": "${ODOO_PASSWORD}"
+      }
+    },
+    {
+      "id": "facebook-instagram-mcp",
+      "name": "Facebook/Instagram MCP",
+      "description": "Interact with Facebook Pages and Instagram Business Accounts",
+      "connection": {
+        "type": "stdio",
+        "command": "python",
+        "args": ["-m", "ai_employee.facebook_instagram_mcp"]
+      },
+      "capabilities": {
+        "post_to_facebook_page": true,
+        "post_image_to_instagram_business_account": true,
+        "get_facebook_page_posts": true,
+        "get_instagram_media": true
+      },
+      "environment": {
+        "FB_PAGE_ACCESS_TOKEN": "${FB_PAGE_ACCESS_TOKEN}",
+        "INSTAGRAM_ACCESS_TOKEN": "${INSTAGRAM_ACCESS_TOKEN}",
+        "FB_PAGE_ID": "${FB_PAGE_ID}",
+        "IG_BUSINESS_ACCOUNT_ID": "${IG_BUSINESS_ACCOUNT_ID}"
+      }
+    },
+    {
+      "id": "twitter-mcp",
+      "name": "Twitter MCP",
+      "description": "Interact with Twitter (X) for posting tweets and retrieving information",
+      "connection": {
+        "type": "stdio",
+        "command": "python",
+        "args": ["-m", "ai_employee.twitter_mcp"]
+      },
+      "capabilities": {
+        "post_tweet": true,
+        "get_user_tweets": true
+      },
+      "environment": {
+        "TWITTER_CONSUMER_KEY": "${TWITTER_CONSUMER_KEY}",
+        "TWITTER_CONSUMER_SECRET": "${TWITTER_CONSUMER_SECRET}",
+        "TWITTER_ACCESS_TOKEN": "${TWITTER_ACCESS_TOKEN}",
+        "TWITTER_ACCESS_TOKEN_SECRET": "${TWITTER_ACCESS_TOKEN_SECRET}"
+      }
     }
   ],
   "permissions": {
@@ -100,7 +164,10 @@
         "oauth2.googleapis.com",
         "api.stripe.com",
         "paypal.com",
-        "smtp.gmail.com"
+        "smtp.gmail.com",
+        "${ODOO_HOST}",
+        "graph.facebook.com",
+        "api.twitter.com"
       ],
       "deny": []
     }

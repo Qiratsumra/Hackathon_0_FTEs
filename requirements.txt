@@ -2,7 +2,6 @@
 # Compatible with UV package manager
 
 # Core dependencies
-python==3.13
 asyncio
 pathlib
 logging
@@ -34,14 +33,11 @@ requests==2.31.0
 httpx==0.25.2
 
 # Data processing
-pandas==2.1.4
-openpyxl==3.1.2
+
 
 # Utilities
 tqdm==4.66.1
 click==8.1.7
-
-# Testing (required)
 pytest==8.3.3
 pytest-asyncio==0.23.7
 
@@ -53,3 +49,9 @@ python-multipart==0.0.9
 
 # For the chatbot interface
 colorama==0.4.6  # For colored output (optional)
+
+# Odoo Integration
+odoolib # Please verify version
+
+# Twitter Integration
+tweepy
