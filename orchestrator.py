@@ -32,6 +32,20 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import psutil
 
+from whatsapp_watcher_complete import WhatsAppWatcher
+
+# Where you create watchers
+self.whatsapp_watcher = WhatsAppWatcher(
+    vault_path='./AI_Employee_Vault',
+    session_path='./whatsapp_session'
+)
+
+# Add to your list
+self.watchers = [
+    self.gmail_watcher,      # You already have this
+    self.whatsapp_watcher,   # NEW - add this line
+    self.file_watcher        # You already have this
+]
 
 @dataclass
 class TaskInfo:
